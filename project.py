@@ -25,7 +25,7 @@ def Gauss(x, A, B):
 metalObject = input(
     "Unesite ime metalnog objekta za koji želite vidjeti mjerenja (cepPiva, clutter, kuglica, lipa20, metak, PMA1, PMA2): ")
 
-fileName = "Mjerenja\\CrvenoTlo\\" + metalObject
+fileName = "C:/PROJEKT_R/projektR/Mjerenja/CrvenoTlo/" + metalObject
 
 COLUMNS = 94
 
@@ -38,6 +38,7 @@ xpoints = np.arange(COLUMNS)  # from 0 to 93 microseconds
 xMjerenja = np.array(arrData[0])
 yMjerenja = np.array(arrData[1])
 zMjerenja = np.array(arrData[2])
+
 
 testnoMjerenjeX = np.empty(COLUMNS)
 testnoMjerenjeY = np.empty(COLUMNS)
@@ -70,10 +71,10 @@ for i in range(COLUMNS - 1):
         najveciZ = ((zMjerenja[i])[brojMjerenja - 1])
 
 #loading and scaling
-for i in range(COLUMNS - 1):
-    testnoMjerenjeX[i] = ((xMjerenja[i])[brojMjerenja - 1])/najveciX
-    testnoMjerenjeY[i] = ((yMjerenja[i])[brojMjerenja - 1])/najveciY
-    testnoMjerenjeZ[i] = ((zMjerenja[i])[brojMjerenja - 1])/najveciZ
+for i in range(COLUMNS):
+    testnoMjerenjeX[i] = ((xMjerenja[i])[brojMjerenja - 1])
+    testnoMjerenjeY[i] = ((yMjerenja[i])[brojMjerenja - 1])
+    testnoMjerenjeZ[i] = ((zMjerenja[i])[brojMjerenja - 1])
 
 # INTER QUARTILE RANGE
 for i in range(COLUMNS - 1):
