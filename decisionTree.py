@@ -1,51 +1,26 @@
-import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import accuracy_score
+import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-from scipy import stats
+from scipy.stats import iqr
+from sklearn.metrics import precision_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import recall_score
 
-metals = pd.read_table('C:/PROJEKT_R/projektR/measurements.txt')
-feature_names = ['x', 'y', 'z']
+dataframe = pd.read_table('C:/PROJEKT_R/projektR/mjerenja.txt', sep="\s+")
 
-""""
-Q1 = metals['x'].quantile(0.25)
-Q3 = metals['x'].quantile(0.75)
-IQR = Q3-Q1
-Lower_Whisker = Q1-1.5*IQR
-Upper_Whisker = Q3+1.5*IQR
-metals = metals[metals['x'] < Upper_Whisker]
+data = dataframe.values
 
-Q1 = metals['y'].quantile(0.25)
-Q3 = metals['y'].quantile(0.75)
-IQR = Q3-Q1
-Lower_Whisker = Q1-1.5*IQR
-Upper_Whisker = Q3+1.5*IQR
-metals = metals[metals['y'] < Upper_Whisker]
-
-Q1 = metals['z'].quantile(0.25)
-Q3 = metals['z'].quantile(0.75)
-IQR = Q3-Q1
-Lower_Whisker = Q1-1.5*IQR
-Upper_Whisker = Q3+1.5*IQR
-metals = metals[metals['z'] < Upper_Whisker]
-"""
-
-metals = metals.drop_duplicates(subset=feature_names)
-
-X = metals[feature_names]
-y = metals['name']
+X = data[:, 1:]
+y = data[:, 0]
 
 #
 # Create training and test split
 #
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=1, stratify=y)
+
 #
 # Standardize the data set
 #
@@ -64,10 +39,11 @@ y_pred = clf.predict(X_test)
 #
 # Calculate the confusion matrix
 #
-conf_matrix = confusion_matrix(y_true=y_test, y_pred=y_pred)
+# conf_matrix = confusion_matrix(y_true=y_test, y_pred=y_pred)
 #
 # Print the confusion matrix
 #
+
 """"
 fig, ax = plt.subplots(figsize=(5, 5))
 ax.matshow(conf_matrix, cmap=plt.cm.Oranges, alpha=0.3)
