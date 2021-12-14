@@ -1,7 +1,5 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import LogisticRegression
@@ -10,25 +8,25 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
 
-metals = pd.read_table('C:/PROJEKT_R/projektR/measurements.txt')
+dataframe = pd.read_table('C:/PROJEKT_R/projektR/mjerenja.txt', sep="\s+")
 
-feature_names = ['x', 'y', 'z']
+data = dataframe.values
 
-X = metals[feature_names]
-y = metals['name']
+X = data[:, 1:]
+y = data[:, 0]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 
 scaler = MinMaxScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
-""""
+
 logreg = LogisticRegression()
 logreg.fit(X_train, y_train)
-"""
+
 clf = DecisionTreeClassifier().fit(X_train, y_train)
-"""""
 clf2 = DecisionTreeClassifier(max_depth=3).fit(X_train, y_train)
 
 knn = KNeighborsClassifier()
@@ -42,6 +40,9 @@ gnb.fit(X_train, y_train)
 
 svm = SVC()
 svm.fit(X_train, y_train)
+
+rfc = RandomForestClassifier()
+rfc.fit(X_train, y_train)
 
 print('Accuracy of Logistic regression classifier on training set: {:.2f}'
       .format(logreg.score(X_train, y_train)))
@@ -77,4 +78,8 @@ print('Accuracy of SVM classifier on training set: {:.2f}'
       .format(svm.score(X_train, y_train)))
 print('Accuracy of SVM classifier on test set: {:.2f}'
       .format(svm.score(X_test, y_test)))
-"""
+
+print('Accuracy of RFC classifier on training set: {:.2f}'
+      .format(rfc.score(X_train, y_train)))
+print('Accuracy of RFC classifier on test set: {:.2f}'
+      .format(rfc.score(X_test, y_test)))
